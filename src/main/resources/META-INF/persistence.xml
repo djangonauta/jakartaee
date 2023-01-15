@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+             version="3.1">
+  <persistence-unit name="jakartaee" transaction-type="JTA">
+    <jta-data-source>java:jboss/datasources/PostgresDS</jta-data-source>
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <properties>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+      <property name="hibernate.hbm2ddl.auto" value="none" />
+      <property name="hibernate.jpa.compliance.query" value="false" />
+      <property name="hibernate.show_sql" value="true" />
+      <property name="hibernate.format_sql" value="false" />
+    </properties>
+  </persistence-unit>
+</persistence>
