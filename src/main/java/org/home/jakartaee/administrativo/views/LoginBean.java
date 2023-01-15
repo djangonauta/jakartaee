@@ -14,7 +14,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Optional;
 import org.home.jakartaee.administrativo.models.Usuario;
+import org.home.jakartaee.arquitetura.UsuarioPrincipal;
 
 @Model
 public class LoginBean implements Serializable {
@@ -69,6 +71,13 @@ public class LoginBean implements Serializable {
         request.getSession().invalidate();
         request.logout();
         return "/index.faces?faces-redirect=true";
+    }
+    
+    public Usuario getUsuarioLogado() {
+        Optional<Usuario> usuarioOpcional = securityContext.getPrincipalsByType(UsuarioPrincipal.class)
+            .stream().map(e -> e.getUsuario()).findAny();
+        
+        return usuarioOpcional.orElse(new Usuario());
     }
 
     public HttpServletResponse getResponse() {

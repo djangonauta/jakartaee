@@ -26,7 +26,7 @@ public class UsuarioIdentityStore implements IdentityStore {
         if (resultado.isPresent()) {
             Usuario usuario = resultado.get();
             return new CredentialValidationResult(
-                    usuario.getLogin(),
+                    new UsuarioPrincipal(usuario),
                     usuario.getPermissoesTexto()
             );
         }

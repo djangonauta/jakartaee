@@ -101,6 +101,13 @@ public class Usuario implements Serializable {
         return Objects.equals(this.id, other.id);
     }
 
+    @Override
+    public String toString() {
+        return "Usuario[login=" + login + "][email=" + email + "]";
+    }
+    
+    
+
     public Long getId() {
         return id;
     }
