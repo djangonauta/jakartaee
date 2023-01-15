@@ -45,12 +45,12 @@ public class UsuarioService {
         query.setParameter("login", login);
         query.setParameter("senha", DigestUtils.sha256Hex(senha));
 
-        Usuario usuario = null;
+        Usuario usuario;
         try {
             usuario = query.getSingleResult();
 
         } catch (NoResultException exception) {
-            System.err.println(exception);
+            usuario = null;
         }
 
         return Optional.ofNullable(usuario);

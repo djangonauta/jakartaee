@@ -86,3 +86,7 @@ insert into administrativo.permissao values ('ADMIN', 'Administrador');
 
 insert into administrativo.usuario values (nextval('administrativo.usuario_sequencia'), 'igor.carvalho', 'igor@domain.com', 'Igor Oak', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
 insert into administrativo.usuario_permissao values (1, 'USUARIO');
+
+insert into administrativo.usuario values (nextval('administrativo.usuario_sequencia'), 'admin', 'admin@domain.com', 'Administrador', 'b20b0f63ce2ed361e8845d6bf2e59811aaa06ec96bcdb92f9bc0c5a25e83c9a6');
+insert into administrativo.usuario_permissao values (2, 'USUARIO');
+insert into administrativo.usuario_permissao values (2, 'ADMIN');

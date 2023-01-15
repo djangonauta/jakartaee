@@ -105,8 +105,6 @@ public class Usuario implements Serializable {
     public String toString() {
         return "Usuario[login=" + login + "][email=" + email + "]";
     }
-    
-    
 
     public Long getId() {
         return id;
