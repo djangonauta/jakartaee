@@ -14,9 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Optional;
 import org.home.jakartaee.administrativo.models.Usuario;
-import org.home.jakartaee.arquitetura.UsuarioPrincipal;
 
 @Model
 public class LoginBean implements Serializable {
@@ -47,11 +45,15 @@ public class LoginBean implements Serializable {
 
     public void login() throws IOException {
         switch (obterStatusLogin()) {
-            case SEND_CONTINUE -> facesContext.responseComplete();
+            case SEND_CONTINUE ->
+                facesContext.responseComplete();
 
-            case SUCCESS -> externalContext.redirect(redirect);
+            case SUCCESS -> {
+                externalContext.redirect(redirect);
+            }
 
-            case SEND_FAILURE -> facesContext.addMessage(null, new FacesMessage("Login ou Senha inválidos"));
+            case SEND_FAILURE ->
+                facesContext.addMessage(null, new FacesMessage("Login ou Senha inválidos"));
 
             case NOT_DONE -> {
             }
@@ -59,10 +61,12 @@ public class LoginBean implements Serializable {
     }
 
     private AuthenticationStatus obterStatusLogin() {
-        AuthenticationParameters parametros = AuthenticationParameters.withParams().credential(new UsernamePasswordCredential(
+        UsernamePasswordCredential credenciais = new UsernamePasswordCredential(
                 usuario.getLogin(),
                 usuario.getSenha()
-        ));
+        );
+        AuthenticationParameters parametros = AuthenticationParameters.withParams()
+                .credential(credenciais);
 
         return securityContext.authenticate(getRequest(), getResponse(), parametros);
     }
@@ -71,13 +75,6 @@ public class LoginBean implements Serializable {
         request.getSession().invalidate();
         request.logout();
         return "/index.faces?faces-redirect=true";
-    }
-    
-    public Usuario getUsuarioLogado() {
-        Optional<Usuario> usuarioOpcional = securityContext.getPrincipalsByType(UsuarioPrincipal.class)
-            .stream().map(e -> e.getUsuario()).findAny();
-        
-        return usuarioOpcional.orElse(new Usuario());
     }
 
     public HttpServletResponse getResponse() {

@@ -4,13 +4,16 @@
   <ui:define name="body">
     <h:form>
       <p>
-        <a href="/app">Acessar app</a>
+        <a href="#{request.contextPath}/usuarios/login.faces">Login</a>
       </p>
       <p>
-        <a href="/admin">Acessar administração</a>
+        <a href="#{request.contextPath}/app">Acessar app</a>
       </p>
       <p>
-        Logado como #{loginBean.usuarioLogado}
+        <a href="#{request.contextPath}/admin">Acessar administração</a>
+      </p>
+      <p>
+        Logado como #{seguranca.usuarioLogado}
       </p>
       <p>
         <h:commandLink value="logout" action="#{loginBean.logout}" />
