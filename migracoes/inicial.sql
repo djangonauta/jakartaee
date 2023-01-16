@@ -9,13 +9,13 @@ create sequence administrativo.usuario_sequencia start 1 increment 1;
 alter table administrativo.usuario_sequencia owner to :user;
 
 create table administrativo.usuario (
-	id_usuario bigint not null,
-	constraint home_id_usuario_pk primary key (id_usuario),
+    id_usuario bigint not null,
+    constraint home_id_usuario_pk primary key (id_usuario),
 
-        login varchar (255) unique,
-	email varchar (255) unique,
-	nome varchar (255),
-	senha varchar (255)
+    login varchar (255) unique,
+    email varchar (255) unique,
+    nome varchar (255),
+    senha varchar (255)
 );
 
 alter table administrativo.usuario owner to :user;
@@ -23,10 +23,10 @@ alter table administrativo.usuario owner to :user;
 -- Grupo
 --------------------------------------------------------------------------------------------------------------
 create table administrativo.grupo (
-	nome_grupo varchar (255) not null,
-        constraint home_nome_grupo_pk primary key (nome_grupo),
+    nome_grupo varchar (255) not null,
+    constraint home_nome_grupo_pk primary key (nome_grupo),
 
-	descricao text
+    descricao text
 );
 
 alter table administrativo.grupo owner to :user;
