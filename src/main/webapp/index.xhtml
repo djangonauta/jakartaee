@@ -16,6 +16,12 @@
         Logado como #{seguranca.usuarioLogado}
       </p>
       <p>
+        Possui papel de usuário ou admin: #{seguranca.temAlgumaPermissao('USUARIO', 'ADMIN') ? 'Sim' : 'Não'}
+      </p>
+      <p>
+        Possui papel de usuário e admin: #{seguranca.temTodasPermissoes('USUARIO', 'ADMIN') ? 'Sim' : 'Não'}
+      </p>
+      <p>
         <h:commandLink value="logout" action="#{loginBean.logout}" />
       </p>
       <p>Estágio de configuração JSF: #{facesContext.application.projectStage}</p>
