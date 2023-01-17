@@ -1,6 +1,7 @@
 package org.home.jakartaee.administrativo.views;
 
 import jakarta.enterprise.inject.Model;
+import jakarta.faces.annotation.ManagedProperty;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
@@ -9,6 +10,7 @@ import jakarta.security.enterprise.AuthenticationStatus;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.security.enterprise.authentication.mechanism.http.AuthenticationParameters;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,7 +33,12 @@ public class LoginBean implements Serializable {
     @Inject
     private FacesContext facesContext;
 
-    private String redirect;
+    @Inject
+    private ServletContext servletContext;
+
+    @Inject
+    @ManagedProperty("#{params.loginDireto}")
+    private boolean loginDireto;
 
     private Usuario usuario;
 
@@ -49,6 +56,10 @@ public class LoginBean implements Serializable {
                 facesContext.responseComplete();
 
             case SUCCESS -> {
+                String redirect = String.format("%s%s",
+                        externalContext.getRequestContextPath(),
+                        servletContext.getInitParameter("application.HOME_PAGE")
+                );
                 externalContext.redirect(redirect);
             }
 
@@ -66,7 +77,7 @@ public class LoginBean implements Serializable {
                 usuario.getSenha()
         );
         AuthenticationParameters parametros = AuthenticationParameters.withParams()
-                .credential(credenciais);
+                .newAuthentication(loginDireto).credential(credenciais);
 
         return securityContext.authenticate(getRequest(), getResponse(), parametros);
     }
@@ -111,18 +122,6 @@ public class LoginBean implements Serializable {
 
     public void setFacesContext(FacesContext facesContext) {
         this.facesContext = facesContext;
-    }
-
-    public String getRedirect() {
-        if (redirect == null) {
-            redirect = request.getRequestURI();
-        }
-
-        return redirect;
-    }
-
-    public void setRedirect(String redirect) {
-        this.redirect = redirect;
     }
 
     public Usuario getUsuario() {

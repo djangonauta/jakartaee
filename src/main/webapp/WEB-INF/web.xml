@@ -13,10 +13,35 @@
     <param-name>jakarta.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
     <param-value>true</param-value>
   </context-param>
+  
+  <context-param>
+    <param-name>jakarta.faces.CLIENT_WINDOW_MODE</param-name>
+    <param-value>none</param-value> <!-- url -->
+  </context-param>
+  
+  <context-param>
+    <param-name>jakarta.faces.NUMBER_OF_CLIENT_WINDOWS</param-name>
+    <param-value>10</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>com.sun.faces.numberOfLogicalViews</param-name>
+    <param-value>15</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>com.sun.faces.numberOfActiveViewMaps</param-name>
+    <param-value>25</param-value>
+  </context-param>
 
   <context-param>
     <param-name>jakarta.faces.PROJECT_STAGE</param-name>
     <param-value>${jakarta.faces.project.stage:Production}</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>application.HOME_PAGE</param-name>
+    <param-value>/app</param-value>
   </context-param>
 
   <servlet>
@@ -34,6 +59,11 @@
   <welcome-file-list>
     <welcome-file>index.faces</welcome-file>
   </welcome-file-list>
+  
+  <error-page>
+    <error-code>403</error-code>
+    <location>/WEB-INF/erros/403.faces</location>
+  </error-page>
 
   <security-constraint>
     <display-name>app</display-name>

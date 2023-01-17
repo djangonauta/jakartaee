@@ -8,10 +8,10 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-      <property name="hibernate.hbm2ddl.auto" value="none" />
+      <property name="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto:none}" />
       <property name="hibernate.jpa.compliance.query" value="false" />
-      <property name="hibernate.show_sql" value="true" />
-      <property name="hibernate.format_sql" value="false" />
+      <property name="hibernate.show_sql" value="${hibernate.show_sql:false}" />
+      <property name="hibernate.format_sql" value="${hibernate.format_sql:false}" />
     </properties>
   </persistence-unit>
 </persistence>

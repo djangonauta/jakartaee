@@ -5,8 +5,8 @@ create schema administrativo authorization :user;
 --------------------------------------------------------------------------------------------------------------
 -- Usuario
 --------------------------------------------------------------------------------------------------------------
-create sequence administrativo.usuario_sequencia start 1 increment 1;
-alter table administrativo.usuario_sequencia owner to :user;
+create sequence administrativo.usuario_sequence start 1 increment 1;
+alter table administrativo.usuario_sequence owner to :user;
 
 create table administrativo.usuario (
     id_usuario bigint not null,
@@ -84,9 +84,13 @@ alter table administrativo.grupo_permissao owner to :user;
 insert into administrativo.permissao values ('USUARIO', 'Usuário');
 insert into administrativo.permissao values ('ADMIN', 'Administrador');
 
-insert into administrativo.usuario values (nextval('administrativo.usuario_sequencia'), 'igor.carvalho', 'igor@domain.com', 'Igor Oak', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
+insert into administrativo.usuario (id_usuario, login, email, senha) values
+    (nextval('administrativo.usuario_sequence'), 'igor.carvalho', 'igor@domain.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
+
 insert into administrativo.usuario_permissao values (1, 'USUARIO');
 
-insert into administrativo.usuario values (nextval('administrativo.usuario_sequencia'), 'admin', 'admin@domain.com', 'Administrador', 'b20b0f63ce2ed361e8845d6bf2e59811aaa06ec96bcdb92f9bc0c5a25e83c9a6');
+insert into administrativo.usuario (id_usuario, login, email, senha) values
+    (nextval('administrativo.usuario_sequence'), 'admin', 'admin@domain.com', 'b20b0f63ce2ed361e8845d6bf2e59811aaa06ec96bcdb92f9bc0c5a25e83c9a6');
+
 insert into administrativo.usuario_permissao values (2, 'USUARIO');
 insert into administrativo.usuario_permissao values (2, 'ADMIN');

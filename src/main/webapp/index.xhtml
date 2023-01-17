@@ -1,10 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <ui:composition template="/WEB-INF/templates/base.xhtml" xmlns:ui="jakarta.faces.facelets"
-                xmlns:h="jakarta.faces.html">
+                xmlns:h="jakarta.faces.html" xmlns:f="jakarta.faces.core">
   <ui:define name="body">
     <h:form>
       <p>
-        <a href="#{request.contextPath}/usuarios/login.faces">Login</a>
+        <h:link value="Login" outcome="/usuarios/login.faces">
+          <f:param name="loginDireto" value="true"/>
+        </h:link>
       </p>
       <p>
         <a href="#{request.contextPath}/app">Acessar app</a>
