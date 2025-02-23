@@ -33,31 +33,28 @@ Fazer o download do driver jdbc postgresql. O diretório onde esse arquivo ``.ja
 
 $VERSAO é versão númerica do driver jdbc postgresql.
 
-Os comandos a seguir servem para configurar um datasource:
+Os comandos a seguir servem para configurar o wildfly:
 
-    # Conecta ao servidor wildfly que deve estar executando
-    $WILDFLY_HOME/bin/jboss-cli.[bat|sh] connect
+    # POSTGRES_DRIVER_PATH= DB_BAME= DB_USER= DB_PASS= sh jboss-cli.sh --connect --file=jboss-config.cli
 
     # copia o driver postgresql.jar para o wildfly
-    module add --name=org.postgresql --resources=$DIRETORIO/postgresql-$VERSAO.jar --dependencies=javax.api,javax.transaction.api
+    module add --name=org.postgresql --resources=${env.POSTGRES_DRIVER_PATH} --dependencies=javax.api,javax.transaction.api
 
     # registra o driver no arquivo de configuração standalone-full.xml
     /subsystem=datasources/jdbc-driver=postgres:add(driver-name="postgres",driver-module-name="org.postgresql",driver-class-name="org.postgresql.Driver")
 
     # registra o datasource no arquivo de configuração standalone-full.xml
-    data-source add --jndi-name=java:jboss/datasources/PostgresDS --name=PostgresDS --connection-url=jdbc:postgresql://localhost:5432/$NOME_DATABASE --driver-name=postgres --user-name=$NOME_USUARIO --password=$SENHA_USUARIO
+    data-source add --jndi-name=java:jboss/datasources/PostgresDS --name=PostgresDS --connection-url=jdbc:postgresql://localhost:5432/${env.DB_BAME} --driver-name=postgres --user-name=${env.DB_USER} --password=${env.DB_PASS}
+
+    # Desativa 'integrated-jaspi'
+    /subsystem=undertow/application-security-domain=other:write-attribute(name=integrated-jaspi, value=false)
+
+    # ativa leitura de variáveis de ambiente
+    /subsystem=ee:write-attribute(name=spec-descriptor-property-replacement, value=true)
+
+    :reload
+
 
 O valor do atributo ``jndi-name`` é utilizado no arquivo ``persistence.xml``:
 
     <jta-data-source>java:jboss/datasources/PostgresDS</jta-data-source>
-
-# Configuração via variáveis de ambiente
-
-Adicionar a seguinte valor no arquivo de configuração ``standalone-full.xml``
-
-    <spec-descriptor-property-replacement>true</spec-descriptor-property-replacement>
-
-
-# Desativar o atributo Integrated JASPI
-
-    Subsystems/Web/Application Security Domain/other

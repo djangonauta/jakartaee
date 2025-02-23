@@ -1,5 +1,11 @@
 package org.home.jakartaee.administrativo.models;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,36 +20,46 @@ import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-import org.apache.commons.codec.digest.DigestUtils;
 
 @Entity
-@Table(schema = "administrativo", name = "usuario")
+@Table(
+    schema = "administrativo",
+    name = "usuario"
+)
 public class Usuario implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_sequence")
-    @SequenceGenerator( schema = "administrativo", name = "usuario_sequence", sequenceName = "usuario_sequence",
-            initialValue = 1, allocationSize = 1
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+        generator = "usuario_sequence"
+    )
+    @SequenceGenerator(
+        schema = "administrativo",
+        name = "usuario_sequence",
+        sequenceName = "usuario_sequence",
+        initialValue = 1,
+        allocationSize = 1
     )
     @Column(name = "id_usuario")
     private Long id;
 
     @ManyToMany
-    @JoinTable(schema = "administrativo", name = "usuario_grupo",
-            joinColumns = @JoinColumn(name = "id_usuario"),
-            inverseJoinColumns = @JoinColumn(name = "nome_grupo")
+    @JoinTable(
+        schema = "administrativo",
+        name = "usuario_grupo",
+        joinColumns = @JoinColumn(name = "id_usuario"),
+        inverseJoinColumns = @JoinColumn(name = "nome_grupo")
     )
     Set<Grupo> grupos;
 
     @ManyToMany
-    @JoinTable(schema = "administrativo", name = "usuario_permissao",
-            joinColumns = @JoinColumn(name = "id_usuario"),
-            inverseJoinColumns = @JoinColumn(name = "codigo_permissao")
+    @JoinTable(
+        schema = "administrativo",
+        name = "usuario_permissao",
+        joinColumns = @JoinColumn(name = "id_usuario"),
+        inverseJoinColumns = @JoinColumn(name = "codigo_permissao")
     )
     Set<Permissao> permissoes;
 
@@ -66,10 +82,6 @@ public class Usuario implements Serializable {
     private void iniciar() {
         permissoes = new HashSet<>();
         grupos = new HashSet<>();
-    }
-
-    public void configurarSenha(String senha) {
-        this.senha = DigestUtils.sha256Hex(senha);
     }
 
     @Transient

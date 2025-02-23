@@ -1,5 +1,10 @@
 package org.home.jakartaee.administrativo.views;
 
+import java.io.IOException;
+import java.io.Serializable;
+
+import org.home.jakartaee.administrativo.models.Usuario;
+
 import jakarta.enterprise.inject.Model;
 import jakarta.faces.annotation.ManagedProperty;
 import jakarta.faces.application.FacesMessage;
@@ -14,12 +19,11 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.Serializable;
-import org.home.jakartaee.administrativo.models.Usuario;
 
 @Model
 public class LoginBean implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Inject
     private HttpServletRequest request;
@@ -52,32 +56,25 @@ public class LoginBean implements Serializable {
 
     public void login() throws IOException {
         switch (obterStatusLogin()) {
-            case SEND_CONTINUE ->
-                facesContext.responseComplete();
+        case SEND_CONTINUE -> facesContext.responseComplete();
 
-            case SUCCESS -> {
-                String redirect = String.format("%s%s",
-                        externalContext.getRequestContextPath(),
-                        servletContext.getInitParameter("application.HOME_PAGE")
-                );
-                externalContext.redirect(redirect);
-            }
+        case SUCCESS -> {
+            String redirect = String.format("%s%s", externalContext.getRequestContextPath(),
+                    servletContext.getInitParameter("application.HOME_PAGE"));
+            externalContext.redirect(redirect);
+        }
 
-            case SEND_FAILURE ->
-                facesContext.addMessage(null, new FacesMessage("Login ou Senha inválidos"));
+        case SEND_FAILURE -> facesContext.addMessage(null, new FacesMessage("Login ou Senha inválidos"));
 
-            case NOT_DONE -> {
-            }
+        case NOT_DONE -> {
+        }
         }
     }
 
     private AuthenticationStatus obterStatusLogin() {
-        UsernamePasswordCredential credenciais = new UsernamePasswordCredential(
-                usuario.getLogin(),
-                usuario.getSenha()
-        );
-        AuthenticationParameters parametros = AuthenticationParameters.withParams()
-                .newAuthentication(loginDireto).credential(credenciais);
+        UsernamePasswordCredential credenciais = new UsernamePasswordCredential(usuario.getLogin(), usuario.getSenha());
+        AuthenticationParameters parametros = AuthenticationParameters.withParams().newAuthentication(loginDireto)
+                .credential(credenciais);
 
         return securityContext.authenticate(getRequest(), getResponse(), parametros);
     }

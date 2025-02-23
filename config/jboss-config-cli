@@ -1,0 +1,18 @@
+# POSTGRES_DRIVER_PATH= DB_BAME= DB_USER= DB_PASS= sh jboss-cli.sh --connect --file=jboss-config.cli
+
+# copia o driver postgresql.jar para o wildfly
+module add --name=org.postgresql --resources=${env.POSTGRES_DRIVER_PATH} --dependencies=javax.api,javax.transaction.api
+
+# registra o driver no arquivo de configuração standalone-full.xml
+/subsystem=datasources/jdbc-driver=postgres:add(driver-name="postgres",driver-module-name="org.postgresql",driver-class-name="org.postgresql.Driver")
+
+# registra o datasource no arquivo de configuração standalone-full.xml
+data-source add --jndi-name=java:jboss/datasources/PostgresDS --name=PostgresDS --connection-url=jdbc:postgresql://localhost:5432/${env.DB_BAME} --driver-name=postgres --user-name=${env.DB_USER} --password=${env.DB_PASS}
+
+# Desativa 'integrated-jaspi'
+/subsystem=undertow/application-security-domain=other:write-attribute(name=integrated-jaspi, value=false)
+
+# ativa leitura de variáveis de ambiente
+/subsystem=ee:write-attribute(name=spec-descriptor-property-replacement, value=true)
+
+:reload

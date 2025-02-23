@@ -85,12 +85,12 @@ insert into administrativo.permissao values ('USUARIO', 'Usuário');
 insert into administrativo.permissao values ('ADMIN', 'Administrador');
 
 insert into administrativo.usuario (id_usuario, login, email, senha) values
-    (nextval('administrativo.usuario_sequence'), 'igor.carvalho', 'igor@domain.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
+    (nextval('administrativo.usuario_sequence'), 'igor.carvalho', 'igor@domain.com', 'PBKDF2WithHmacSHA256:2048:FAKJxf7oi4vkaMWXGY1qSTkDT5FQ77OmfqSevP8DLV8=:5ECXD3ti0+mA3iE3c8OYtq879rO2atu9D6R8Q2XousI=');
 
 insert into administrativo.usuario_permissao values (1, 'USUARIO');
 
 insert into administrativo.usuario (id_usuario, login, email, senha) values
-    (nextval('administrativo.usuario_sequence'), 'admin', 'admin@domain.com', 'b20b0f63ce2ed361e8845d6bf2e59811aaa06ec96bcdb92f9bc0c5a25e83c9a6');
+    (nextval('administrativo.usuario_sequence'), 'admin', 'admin@domain.com', 'PBKDF2WithHmacSHA256:2048:FAKJxf7oi4vkaMWXGY1qSTkDT5FQ77OmfqSevP8DLV8=:5ECXD3ti0+mA3iE3c8OYtq879rO2atu9D6R8Q2XousI=');
 
 insert into administrativo.usuario_permissao values (2, 'USUARIO');
 insert into administrativo.usuario_permissao values (2, 'ADMIN');

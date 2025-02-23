@@ -1,10 +1,12 @@
 package org.home.jakartaee.arquitetura;
 
-import jakarta.security.enterprise.CallerPrincipal;
 import org.home.jakartaee.administrativo.models.Usuario;
+
+import jakarta.security.enterprise.CallerPrincipal;
 
 public class UsuarioPrincipal extends CallerPrincipal {
 
+    private static final long serialVersionUID = 1L;
     private final Usuario usuario;
 
     public UsuarioPrincipal(Usuario usuario) {

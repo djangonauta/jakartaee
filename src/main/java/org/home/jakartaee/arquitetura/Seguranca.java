@@ -1,18 +1,22 @@
 package org.home.jakartaee.arquitetura;
 
+import java.io.Serializable;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+import org.home.jakartaee.administrativo.models.Usuario;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.servlet.http.HttpServletRequest;
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Optional;
-import org.home.jakartaee.administrativo.models.Usuario;
 
 @Named
 @ApplicationScoped
 public class Seguranca implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Inject
     private SecurityContext securityContext;
@@ -21,8 +25,8 @@ public class Seguranca implements Serializable {
     private HttpServletRequest request;
 
     public Usuario getUsuarioLogado() {
-        Optional<Usuario> usuarioOpcional = securityContext.getPrincipalsByType(UsuarioPrincipal.class)
-                .stream().map(e -> e.getUsuario()).findAny();
+        Optional<Usuario> usuarioOpcional = securityContext.getPrincipalsByType(UsuarioPrincipal.class).stream()
+                .map(e -> e.getUsuario()).findAny();
 
         return usuarioOpcional.orElse(new Usuario()); // TODO: usuário anônimo
     }
@@ -36,11 +40,11 @@ public class Seguranca implements Serializable {
     }
 
     public boolean temAlgumaPermissao(String... permissoes) {
-        return Arrays.asList(permissoes).stream().anyMatch(perm -> request.isUserInRole(perm));
+        return Stream.of(permissoes).anyMatch(perm -> request.isUserInRole(perm));
     }
 
     public boolean temTodasPermissoes(String... permissoes) {
-        return Arrays.asList(permissoes).stream().allMatch(perm -> request.isUserInRole(perm));
+        return Stream.of(permissoes).allMatch(perm -> request.isUserInRole(perm));
     }
 
     public boolean temAcessoRecurso(String recurso) {
